@@ -29,6 +29,9 @@ spec = do
         it "handles lines prefixed with `export'" $ do
             parseVariable "export FOO=bar\n" `shouldBe` Just ("FOO", "bar")
 
+        it "handles different quotes" $ do
+            parseVariable "FOO=\"bar'\n" `shouldBe` Nothing
+
         it "treats leading spaces as invalid" $ do
             parseVariable "  FOO=bar\n" `shouldBe` Nothing
 

@@ -29,6 +29,6 @@ valueString = many $ noneOf "\n\"' "
 quotedString :: Parser String
 quotedString = do
   quote <- oneOf "\"'"
-  content <- valueString
+  content <- many $ noneOf $ quote:"\n "
   char quote
   return content
