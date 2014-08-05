@@ -19,23 +19,16 @@ lineParser = do
   optional $ string "export "
   name <- many1 $ choice [letter, (char '_')]
   oneOf "="
-  value <- doubleQuotedString <|> singleQuotedString <|> valueString
+  value <- quotedString <|> valueString
   newline
   return (name, value)
 
 valueString :: Parser String
 valueString = many $ noneOf "\n\"' "
 
-doubleQuotedString :: Parser String
-doubleQuotedString = do
-  char '"'
-  content <- many $ noneOf "\"\n "
-  char '"'
-  return content
-
-singleQuotedString :: Parser String
-singleQuotedString = do
-  char '\''
-  content <- many $ noneOf "'\n "
-  char '\''
+quotedString :: Parser String
+quotedString = do
+  quote <- oneOf "\"'"
+  content <- valueString
+  char quote
   return content
