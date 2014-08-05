@@ -7,12 +7,9 @@ type Variable = (String, String)
 
 parseVariable :: String -> Maybe Variable
 parseVariable x =
-  case parseLine x of
+  case parse lineParser "" x of
     Left _ -> Nothing
     Right x -> Just x
-
-parseLine :: String -> Either ParseError Variable
-parseLine = parse lineParser ""
 
 lineParser :: Parser Variable
 lineParser = do
