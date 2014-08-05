@@ -35,6 +35,15 @@ spec = do
         it "handles trailing comments" $ do
             parseVariable "FOO=\"bar\" # trailing comment\n" `shouldBe` Just ("FOO", "bar")
 
+        it "handles escaped spaces" $ do
+            parseVariable "FOO=bar\\ baz\\ qux\n" `shouldBe` Just ("FOO", "bar baz qux")
+
+        it "handles escaped double quotes" $ do
+            parseVariable "FOO=\"bar\\\"baz\"\n" `shouldBe` Just ("FOO", "bar\"baz")
+
+        it "handles escaped single quotes" $ do
+            parseVariable "FOO='bar\\'baz'\n" `shouldBe` Just ("FOO", "bar\'baz")
+
         it "treats leading spaces as invalid" $ do
             parseVariable "  FOO=bar\n" `shouldBe` Nothing
 

@@ -30,11 +30,14 @@ commentString = do
   return comment
 
 valueString :: Parser String
-valueString = many $ noneOf "\n\"' "
+valueString = many $ try (escaped ' ') <|> (noneOf "\n\"' ")
+
+escaped :: Char -> Parser Char
+escaped c = string ("\\" ++ [c]) >> return c
 
 quotedString :: Parser String
 quotedString = do
   quote <- oneOf "\"'"
-  content <- many $ noneOf $ quote:"\n "
+  content <- many $ try (escaped quote) <|> (noneOf $ quote:"\n ")
   char quote
   return content
