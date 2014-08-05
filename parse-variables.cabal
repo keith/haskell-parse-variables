@@ -12,6 +12,7 @@ Library
   GHC-Options:          -Wall
   Exposed-Modules:      ParseVariable
   Build-Depends:        base >= 4 && < 5
+                      , parsec
 
 Test-Suite spec
   Type:                 exitcode-stdio-1.0
