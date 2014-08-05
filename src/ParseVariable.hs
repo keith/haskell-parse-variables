@@ -17,7 +17,7 @@ parseLine = parse lineParser ""
 lineParser :: Parser Variable
 lineParser = do
   optional $ string "export "
-  name <- many1 $ choice [letter, (char '_')]
+  name <- many1 $ letter <|> char '_'
   oneOf "="
   value <- quotedString <|> valueString
   newline
