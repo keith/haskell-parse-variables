@@ -32,6 +32,9 @@ spec = do
         it "handles different quotes" $ do
             parseVariable "FOO=\"bar'\n" `shouldBe` Nothing
 
+        it "handles trailing comments" $ do
+            parseVariable "FOO=\"bar\"# trailing comment\n" `shouldBe` Just ("FOO", "bar")
+
         it "treats leading spaces as invalid" $ do
             parseVariable "  FOO=bar\n" `shouldBe` Nothing
 

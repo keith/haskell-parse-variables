@@ -17,8 +17,17 @@ lineParser = do
   name <- many1 $ letter <|> char '_'
   oneOf "="
   value <- quotedString <|> valueString
+  optional commentString
   newline
   return (name, value)
+
+commentString :: Parser String
+commentString = do
+  skipMany $ char ' '
+  oneOf "#"
+  comment <- many $ letter <|> (char ' ')
+  skipMany $ char ' '
+  return comment
 
 valueString :: Parser String
 valueString = many $ noneOf "\n\"' "
